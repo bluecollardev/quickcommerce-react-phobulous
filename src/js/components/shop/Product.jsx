@@ -1,5 +1,5 @@
 import assign from 'object-assign'
- 
+
 import React, { Component } from 'react'
 import {inject, observer, Provider} from 'mobx-react'
 
@@ -7,17 +7,17 @@ import { Button } from 'react-bootstrap'
 
 import ProductDetail from '../catalog/ProductDetail.jsx'
 
-import HtmlHelper from 'quickcommerce-react/helpers/HTML.js'
+import HtmlHelper from '../..//helpers/HTML.js'
 
-class Product extends Component {    
+class Product extends Component {
     constructor(props) {
         super(props)
-        
+
         this.getDescription = this.getDescription.bind(this)
         this.onAddToCartClicked = this.onAddToCartClicked.bind(this)
         this.toggleOptions = this.toggleOptions.bind(this)
         this.configureRow = this.configureRow.bind(this)
-        
+
         let product = sessionStorage.getItem('selectedProduct')
         if (typeof product === 'string' && product !== '') {
             this.state = {
@@ -32,7 +32,7 @@ class Product extends Component {
             }
         }
     }
-    
+
     componentDidUpdate() {
         let product = sessionStorage.getItem('selectedProduct')
         if (this.state.product === null) {
@@ -44,7 +44,7 @@ class Product extends Component {
             }
         }
     }
-    
+
     onClick(e) {
         // onClick handler for CartDragItem
         if (typeof this.props.onItemClicked === 'function') {
@@ -52,7 +52,7 @@ class Product extends Component {
             fn(e, this.props.item)
         }
     }
-    
+
     /**
      * This handler is different from other onAddToCartClicked handlers. Trigger addToCart directly.
      */
@@ -62,49 +62,49 @@ class Product extends Component {
         let input = document.querySelectorAll('#product-form input.quantity')[0]
         let quantity = parseInt(input.value)
         console.log('adding ' + quantity + ' items to cart')
-        
+
         let item = this.state.product
-        
+
         if (typeof this.props.addToCart === 'function') {
             let fn = this.props.addToCart
             fn(e, item, quantity)
         }
     }
-    
+
     toggleOptions() {
         this.setState({
             showOptions: (this.state.showOptions) ? false : true
         })
     }
-    
+
     getDescription() {
         let product = this.state.product || null
         if (product !== null) {
             if (typeof this.state.product.description === 'string') {
                 const html = HtmlHelper.decodeHtmlSpecialChars(this.state.product.description)
                 return { __html: html }
-            }            
+            }
         }
-        
+
         return { __html: '' }
     }
-    
+
     /*addToCart(e) {
         e.preventDefault()
-        
+
         if (typeof this.refs.parallax !== 'undefined') {
             this.refs.parallax.scrollTo(0) // Scroll subscription up
         }
-        
+
         let input = document.querySelectorAll('#product-form input[type=number]')[0]
         let quantity = parseInt(input.value)
         console.log('adding ' + quantity + ' items to cart')
-        
+
         let item = this.state.product
         CartStore.addItem(item.id, quantity, item)
-        
+
         window.location.hash = '/category'
-        
+
         let scrollDuration = 111
         let scrollStep = -window.scrollY / (scrollDuration / 15),
             scrollInterval = setInterval(() => {
@@ -113,7 +113,7 @@ class Product extends Component {
             } else clearInterval(scrollInterval)
         }, 15)
     }*/
-    
+
     configureRow(rowComponent) {
         let that = this
         let fn = null
@@ -144,18 +144,18 @@ class Product extends Component {
 
         return rowComponent
     }
-    
+
     render() {
         // Render Product component
         let description = this.getDescription()
         let price = (parseFloat(this.state.product.price)).toFixed(2)
         let options = false
-        if (typeof this.state.product.options !== 'undefined' && 
-        this.state.product.options instanceof Array && 
+        if (typeof this.state.product.options !== 'undefined' &&
+        this.state.product.options instanceof Array &&
         this.state.product.options.length > 0) {
            options = this.state.product.options
         }
-            
+
         return (
             <main className='content-wrapper'>{/* Main Content Wrapper */}
                 {/*<section className='fw-section bg-gray padding-top-3x'>*/}
@@ -186,7 +186,7 @@ class Product extends Component {
                                 <div className='fullpage-slide' style={{ backgroundImage: 'url(img/template/acecoffeeroasters/prd-fhd/ACE-8.jpg)' }}></div>
                             </li>
                         </ul>
-                        
+
                         <ul className='product-gallery-thumblist'>
                             <li><a href='#preview01'>
                                 <img src='img/shop/product-gallery/thumb01.jpg' alt='Product' />
@@ -263,7 +263,7 @@ class Product extends Component {
                         </div>
                       </div>
                       </form>
-                      
+
                       <div className='row product-section'>
                         <div className='col-xs-12'>
                           <ProductDetail />

@@ -1,9 +1,4 @@
-import assign from 'object-assign'
 import axios from 'axios'
-
-import ArrayHelper from 'quickcommerce-react/helpers/Array.js'
-import ObjectHelper from 'quickcommerce-react/helpers/Object.js'
-import StringHelper from 'quickcommerce-react/helpers/String.js'
 
 export class SampleService extends BaseService {
     /**
@@ -11,7 +6,7 @@ export class SampleService extends BaseService {
      */
     onSuccess() {
     }
-    
+
     /**
      * Override parent implementation.
      */
@@ -42,7 +37,7 @@ export class SampleService extends BaseService {
             this.handleError('', onError, err)
         })
     }
-    
+
     /**
      * Get the entity and execute a callback / set to store.
      */
@@ -70,7 +65,7 @@ export class SampleService extends BaseService {
             this.handleError('', onError, err)
         })
     }
-    
+
     /**
      * Override parent implementation.
      */
@@ -79,7 +74,7 @@ export class SampleService extends BaseService {
         data = {
             detailObj: this.normalizePayload(data, 'underscore', 'camelcase')
         }*/
-        
+
         axios({
             url: '',
             data: data,
@@ -106,7 +101,7 @@ export class SampleService extends BaseService {
             this.handleError('', onError, err)
         })
     }
-    
+
     /**
      * Override parent implementation.
      */
@@ -115,7 +110,7 @@ export class SampleService extends BaseService {
         data = {
             detailObj: this.normalizePayload(data, 'underscore', 'camelcase')
         }*/
-        
+
         if (data.id !== null) {
             axios({
                 url: '',
@@ -144,7 +139,7 @@ export class SampleService extends BaseService {
             })
         }
     }
-    
+
     /**
      * Override parent implementation.
      */
@@ -153,7 +148,7 @@ export class SampleService extends BaseService {
         data = {
             detailObj: this.normalizePayload(data, 'underscore', 'camelcase')
         }*/
-        
+
         if (data.id !== null) {
             axios({
                 url: '',
@@ -179,10 +174,10 @@ export class SampleService extends BaseService {
                 }
             }).catch(err => {
                 this.handleError('', onError, err)
-            })       
+            })
         }
     }
-    
+
     /**
      * Override parent implementation.
      */

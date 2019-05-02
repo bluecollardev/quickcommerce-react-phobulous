@@ -1,5 +1,5 @@
 import assign from 'object-assign'
- 
+
 import React, { Component } from 'react'
 import {inject, observer, Provider} from 'mobx-react'
 
@@ -9,25 +9,21 @@ import { Nav, Navbar, NavItem, MenuItem, NavDropdown } from 'react-bootstrap'
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { Button, Checkbox, Radio, } from 'react-bootstrap'
 
-import HtmlHelper from 'quickcommerce-react/helpers/HTML.js'
+import HtmlHelper from '../../helpers/HTML.js'
 
 import ProductGalleryFullwidthWithGap from '../gallery/ProductGalleryFullwidthWithGap.jsx'
-import GalleryFullwidthWithGap from '../gallery/GalleryFullwidthWithGap.jsx'
-import GalleryFullwidthNoGap from '../gallery/GalleryFullwidthNoGap.jsx'
-import GalleryBoxedWithGap from '../gallery/GalleryBoxedWithGap.jsx'
-import GalleryBoxedNoGap from '../gallery/GalleryBoxedNoGap.jsx'
 
 export default class ProductSummary extends Component {
     constructor(props) {
         super(props)
-        
+
         this.getDescription = this.getDescription.bind(this)
         this.toggleOptions = this.toggleOptions.bind(this)
         this.updateImageDimensions = this.updateImageDimensions.bind(this)
-        
+
 		// TODO: Type-check props
         let item = sessionStorage.getItem('selectedProduct')
-		
+
         if (typeof item === 'string' && item !== '') {
             this.state = {
                 showOptions: false,
@@ -41,13 +37,13 @@ export default class ProductSummary extends Component {
             }
         }
     }
-    
+
     componentDidMount() {
         // Equalize images, etc.
         window.addEventListener('resize', this.updateImageDimensions)
         this.updateImageDimensions()
     }
-    
+
     componentDidUpdate() {
         let item = sessionStorage.getItem('selectedProduct')
         if (this.state.item === null) {
@@ -59,54 +55,54 @@ export default class ProductSummary extends Component {
             }
         }
     }
-    
+
     componentWillUnmount() {
         // Equalize images, etc.
         window.removeEventListener('resize', this.updateImageDimensions)
     }
-    
+
     updateImageDimensions() {
         // Keep it square
         console.log('updating featured image height')
         console.log(this.featuredImage.offsetWidth)
         this.featuredImage.style.height = this.featuredImage.offsetWidth + 'px'
     }
-    
+
     toggleOptions() {
         this.setState({
             showOptions: (this.state.showOptions) ? false : true
         })
     }
-    
+
     getDescription() {
         if (typeof this.state.item.description === 'string') {
             const html = HtmlHelper.decodeHtmlSpecialChars(this.state.item.description)
             return { __html: html }
         }
-        
+
         return { __html: '' }
     }
-    
+
     render() {
         // Render Product component
         let description = this.getDescription()
         let price = (parseFloat(this.state.item.price)).toFixed(2)
         let options = false
-        if (typeof this.state.item.options !== 'undefined' && 
-        this.state.item.options instanceof Array && 
+        if (typeof this.state.item.options !== 'undefined' &&
+        this.state.item.options instanceof Array &&
         this.state.item.options.length > 0) {
            options = this.state.item.options
         }
-        
+
         let images = []
-        
+
         if (this.state.item) {
             // TODO: Use mappings!
             if (this.state.item.hasOwnProperty('images')) {
                 images = this.state.item['images']
             }
         }
-        
+
         return (
             <div className="summary entry-summary">
                 {/* Microdata */}
@@ -115,15 +111,15 @@ export default class ProductSummary extends Component {
                 <div className="product-details">
                     <div className="row">
                       <div className="product_images col-xs-12 col-sm-4 col-md-4">
-                        <div 
+                        <div
                             ref={(image) => this.featuredImage = image}
-                            className="row featured_image top_row" 
+                            className="row featured_image top_row"
                             style={{
                                 backgroundImage: 'url(' + QC_IMAGES_URI + this.state.item.image + ')',
-                                backgroundSize: 'cover', 
+                                backgroundSize: 'cover',
                                 height: 450
                             }} />
-                        <ProductGalleryFullwidthWithGap 
+                        <ProductGalleryFullwidthWithGap
                             dataSource={images}
                             {...this.props} />
                       </div>
@@ -181,7 +177,7 @@ export default class ProductSummary extends Component {
                       </div>
                         </div>{/* .row .collapse */}
                       </div>
-                      
+
                     </div>{/* .row */}
                 </div>
             </div>

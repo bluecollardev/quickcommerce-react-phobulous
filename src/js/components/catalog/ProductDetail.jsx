@@ -10,16 +10,16 @@ import { Button, Checkbox, Radio, } from 'react-bootstrap'
 import ProductSummary from '../summary/ProductSummary.jsx'
 import CategorySummary from '../summary/CategorySummary.jsx'
 
-import HtmlHelper from 'quickcommerce-react/helpers/HTML.js'
+import HtmlHelper from '../../helpers/HTML.js'
 
 export default class ProductDetail extends Component {
     constructor(props) {
         super(props)
-        
+
         this.getDescription = this.getDescription.bind(this)
         this.toggleOptions = this.toggleOptions.bind(this)
         this.configureRow = this.configureRow.bind(this)
-        
+
         let product = sessionStorage.getItem('selectedProduct')
         if (typeof product === 'string' && product !== '') {
             this.state = {
@@ -34,7 +34,7 @@ export default class ProductDetail extends Component {
             }
         }
     }
-    
+
     componentDidUpdate() {
         let product = sessionStorage.getItem('selectedProduct')
         if (this.state.product === null) {
@@ -46,22 +46,22 @@ export default class ProductDetail extends Component {
             }
         }
     }
-    
+
     toggleOptions() {
         this.setState({
             showOptions: (this.state.showOptions) ? false : true
         })
     }
-    
+
     getDescription() {
         if (typeof this.state.product.description === 'string') {
             const html = HtmlHelper.decodeHtmlSpecialChars(this.state.product.description)
             return { __html: html }
         }
-        
+
         return { __html: '' }
     }
-    
+
     configureRow(rowComponent) {
         let that = this
         let fn = null
@@ -92,18 +92,18 @@ export default class ProductDetail extends Component {
 
         return rowComponent
     }
-    
+
     render() {
         // Render Product component
         let description = this.getDescription()
         let price = (parseFloat(this.state.product.price)).toFixed(2)
         let options = false
-        if (typeof this.state.product.options !== 'undefined' && 
-        this.state.product.options instanceof Array && 
+        if (typeof this.state.product.options !== 'undefined' &&
+        this.state.product.options instanceof Array &&
         this.state.product.options.length > 0) {
            options = this.state.product.options
         }
-        
+
         return (
             <div>
               <section className="container-fluid padding-top-2x">
@@ -112,7 +112,7 @@ export default class ProductDetail extends Component {
                   <li><a href="#additional" role="tab" data-toggle="tab">Packaging / Configurations</a></li>
                   <li><a href="#reviews" role="tab" data-toggle="tab">Reviews <sup>3</sup></a></li>
                 </ul>
-                
+
                 <div className="tab-content">
                   <div role="tabpanel" className="tab-pane transition fade in active" id="description">
                     <div className="row space-top">
@@ -167,7 +167,7 @@ export default class ProductDetail extends Component {
                     </div>
                   </div>
                   <div role="tabpanel" className="tab-pane transition fade" id="reviews">
-                    
+
                     <div className="review">
                       <div className="review-author-ava">
                         <img src="img/shop/reviews/01.jpg" alt="Review Author" />
@@ -191,7 +191,7 @@ export default class ProductDetail extends Component {
                         <cite>Jessie James</cite>
                       </div>
                     </div>
-                    
+
                     <div className="review">
                       <div className="review-author-ava">
                         <img src="img/shop/reviews/02.jpg" alt="Review Author" />
@@ -215,7 +215,7 @@ export default class ProductDetail extends Component {
                         <cite>Susanna Davis</cite>
                       </div>
                     </div>
-                    
+
                     <div className="review">
                       <div className="review-author-ava">
                         <img src="img/shop/reviews/03.jpg" alt="Review Author" />
@@ -276,7 +276,7 @@ export default class ProductDetail extends Component {
                   </div>
                 </div>
               </section>
-              
+
               {/* TODO: This is a must have! */}
               {/*<section className="container-fluid padding-top padding-bottom">
                 <hr />
